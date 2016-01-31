@@ -13,17 +13,15 @@ defmodule ElixirShop.Router do
   scope "/auth", ElixirShop do
     pipe_through :browser
 
-    get "/register", UserController, :new
-    post "/register", UserController, :create
-
-    get "/login", AuthController, :new
-    post "/login", AuthController, :create
+    resources "/register", UserController, only: [:new, :create]
+    resources "/login", AuthController, only: [:new, :create]
     delete "/logout", AuthController, :destroy
   end
 
   scope "/", ElixirShop do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", ProductController, :index
+    resources "/products", ProductController, only: [:show]
   end
 end

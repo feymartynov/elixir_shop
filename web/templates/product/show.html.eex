@@ -1,0 +1,4 @@
+<h1><%= @product.title %></h1>
+<div class="price"><%= format_price(@product.price) %></div>
+<p class="description"><%= @product.description %></p>
+<div><%= link "Back to list", to: product_path(@conn, :index), class: "btn btn-default" %></div>

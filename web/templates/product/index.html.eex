@@ -1,0 +1,18 @@
+<%= for row <- Enum.chunk(@products, 3, 3, []) do %>
+  <div class="row">
+    <%= for product <- row do %>
+      <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+          <div class="caption">
+            <h3><%= link product.title, to: product_path(@conn, :show, product) %></h3>
+            <div class="price small"><%= format_price(product.price) %></div>
+            <p><%= product.description %></p>
+            <p>
+              <%= link "Show more", to: product_path(@conn, :show, product), class: "btn btn-default" %>
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
