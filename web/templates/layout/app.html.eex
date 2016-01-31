@@ -27,14 +27,24 @@
           <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="false" style="height: 1px;">
             <ul class="nav navbar-nav"></ul>
             <ul class="nav navbar-nav navbar-right">
-              <li>
-                <%= if @current_user do %>
-                  Welcome, <strong><%= @current_user.name %>!</strong>
-                  <%= link "Log out", to: auth_path(@conn, :destroy), method: :delete, class: "btn" %>
-                <% else %>
-                  <%= link "Log in", to: auth_path(@conn, :new), class: "btn" %>
-                <% end %>
-              </li>
+              <%= if @current_user do %>
+                <li>
+                  <div class="navbar-text">
+                    Welcome, <strong><%= @current_user.name %></strong>!</span>
+                  </div>
+                </li>
+                <li>
+                  <div class="navbar-text">
+                    <%= link "Log out", to: auth_path(@conn, :destroy), method: :delete %>
+                  </div>
+                </li>
+              <% else %>
+                <li>
+                  <div class="navbar-text">
+                    <%= link "Log in", to: auth_path(@conn, :new) %>
+                  </div>
+                </li>
+              <% end %>
             </ul>
           </div>
         </div>
