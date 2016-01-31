@@ -18,8 +18,15 @@ defmodule ElixirShop.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {ElixirShop, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex]]
+     applications: [
+       :phoenix,
+       :phoenix_html,
+       :cowboy,
+       :logger,
+       :gettext,
+       :phoenix_ecto,
+       :postgrex,
+       :comeonin]]
   end
 
   # Specifies which paths to compile per environment.
@@ -36,7 +43,8 @@ defmodule ElixirShop.Mixfile do
      {:phoenix_html, "~> 2.4"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:comeonin, "~> 2.1"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

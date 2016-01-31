@@ -1,0 +1,24 @@
+<h1>Log in</h1>
+
+<%= form_for @changeset, auth_path(@conn, :create), fn f -> %>
+  <div class="form-group">
+    <%= label f, :name, "Name" %>
+    <%= text_input f, :name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :password, "Password" %>
+    <%= password_input f, :password, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Log in", class: "btn btn-lg btn-primary" %>
+  </div>
+<% end %>
+
+<hr />
+
+<p>
+  Don't have an account?
+  <%= link "Register", to: user_path(@conn, :new) %>
+</p>

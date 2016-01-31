@@ -1,4 +1,5 @@
-%{"connection": {:hex, :connection, "1.0.2"},
+%{"comeonin": {:hex, :comeonin, "2.1.0"},
+  "connection": {:hex, :connection, "1.0.2"},
   "cowboy": {:hex, :cowboy, "1.0.4"},
   "cowlib": {:hex, :cowlib, "1.0.2"},
   "db_connection": {:hex, :db_connection, "0.2.2"},
@@ -14,4 +15,6 @@
   "poison": {:hex, :poison, "1.5.2"},
   "poolboy": {:hex, :poolboy, "1.5.1"},
   "postgrex": {:hex, :postgrex, "0.11.0"},
-  "ranch": {:hex, :ranch, "1.2.1"}}
+  "ranch": {:hex, :ranch, "1.2.1"},
+  "ueberauth": {:hex, :ueberauth, "0.2.0"},
+  "ueberauth_identity": {:hex, :ueberauth_identity, "0.2.1"}}
