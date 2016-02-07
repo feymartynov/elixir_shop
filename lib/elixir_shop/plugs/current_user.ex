@@ -1,4 +1,4 @@
-defmodule ElixirShop.Plugs.Authentication do
+defmodule ElixirShop.Plugs.CurrentUser do
   import Plug.Conn
   import Plug.Session
 

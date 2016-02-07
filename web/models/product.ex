@@ -5,7 +5,6 @@ defmodule ElixirShop.Product do
     field :title, :string
     field :description, :string
     field :price, :integer
-
     timestamps
   end
 

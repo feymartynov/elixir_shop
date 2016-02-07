@@ -6,7 +6,6 @@ defmodule ElixirShop.Repo.Migrations.CreateProduct do
       add :title, :string
       add :description, :string
       add :price, :integer
-
       timestamps
     end
 

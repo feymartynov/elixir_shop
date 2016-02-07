@@ -7,7 +7,7 @@ defmodule ElixirShop.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug ElixirShop.Plugs.Authentication
+    plug ElixirShop.Plugs.CurrentUser
   end
 
   scope "/auth", ElixirShop do
@@ -23,5 +23,6 @@ defmodule ElixirShop.Router do
 
     get "/", ProductController, :index
     resources "/products", ProductController, only: [:show]
+    resources "/orders", OrderController, only: [:index, :show]
   end
 end
