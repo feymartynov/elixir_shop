@@ -26,6 +26,7 @@ defmodule ElixirShop.ConnCase do
       import Ecto.Query, only: [from: 1, from: 2]
 
       import ElixirShop.Router.Helpers
+      import ElixirShop.Factory
 
       # The default endpoint for testing
       @endpoint ElixirShop.Endpoint

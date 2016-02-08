@@ -31,7 +31,7 @@ defmodule ElixirShop.Repo.Migrations.CreateOrder do
       add :event, :string, null: false
       add :options, :map
       add :user_id, references(:users)
-      timestamps updated_at: false
+      add :inserted_at, :datetime, null: false
     end
 
     create index(:order_events, [:order_id])

@@ -10,7 +10,7 @@ defmodule ElixirShop.Order.Event do
     belongs_to :user, ElixirShop.User
   end
 
-  @required_fields ~w(event order user)
+  @required_fields ~w(event order_id user_id)
   @optional_fields ~w(options)
 
   def changeset(model, params \\ :empty) do

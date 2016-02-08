@@ -11,12 +11,22 @@ defmodule ElixirShop.OrderController do
     render(conn, "index.html", orders: orders)
   end
 
-  def show(conn, %{"id" => token}) do
-    order = Repo.get_by! Order,
-      customer_id: conn.current_user.id,
-      token: token,
-      preload: [lines: [:product]]
+  def show(conn, params) do
+    render(conn, "show.html", order: find_order(conn, params))
+  end
 
-    render(conn, "show.html", order: order)
+  def add_item(conn, %{"product_id" => product_id} = params) do
+    Repo.transaction fn ->
+      order = find_order(conn, params)
+      product = Repo.get!(Product, product_id)
+      Order.add_item(order, product)
+    end
+  end
+
+  defp find_order(conn, params) do
+    Repo.get_by! Order,
+      customer_id: conn.current_user.id,
+      token: params["id"],
+      preload: [lines: [:product]]
   end
 end

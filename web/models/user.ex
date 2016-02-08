@@ -1,8 +1,5 @@
 defmodule ElixirShop.User do
   use ElixirShop.Web, :model
-  use Ecto.Model.Callbacks
-
-  before_insert :set_password_digest
 
   schema "users" do
     field :name, :string
@@ -18,6 +15,7 @@ defmodule ElixirShop.User do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> set_password_digest
     |> validate_format(:email, ~r/^.+@.+$/)
     |> validate_length(:username, min: 3)
     |> validate_length(:username, max: 50)

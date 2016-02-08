@@ -45,7 +45,8 @@ defmodule ElixirShop.Mixfile do
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:comeonin, "~> 2.1"},
-     {:poison, "~> 1.5"}]
+     {:poison, "~> 1.5"},
+     {:ex_machina, "~> 0.6.1", only: :test}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

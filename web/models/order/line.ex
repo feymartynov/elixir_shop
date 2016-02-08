@@ -12,7 +12,7 @@ defmodule ElixirShop.Order.Line do
     belongs_to :product, ElixirShop.Product
   end
 
-  @required_fields ~w(title order product items_number item_price total_price)
+  @required_fields ~w(title order_id product_id items_number item_price total_price)
   @optional_fields ~w()
 
   def changeset(model, params \\ :empty) do
