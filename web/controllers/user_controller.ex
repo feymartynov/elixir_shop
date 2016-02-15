@@ -21,7 +21,7 @@ defmodule ElixirShop.UserController do
         |> redirect(to: "/")
       {:error, changeset} ->
         conn
-        |> put_flash(:error, "Failred to register.")
+        |> put_flash(:error, "Failed to register.")
         |> render("new.html", changeset: changeset)
     end
   end

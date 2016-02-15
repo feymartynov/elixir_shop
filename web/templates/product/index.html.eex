@@ -8,7 +8,18 @@
             <div class="price small"><%= format_price(product.price) %></div>
             <p><%= product.description %></p>
             <p>
-              <%= link "Show more", to: product_path(@conn, :show, product), class: "btn btn-default" %>
+              <%= if @current_user do %>
+                <%= form_for @conn,
+                      order_line_path(@conn, :create, "current"),
+                      [as: "", class: "button"],
+                      fn f -> %>
+                  <input type="hidden" name="product_id" value="<%= product.id %>" />
+                  <button type="submit" class="btn btn-success">Add to cart</button>
+                <% end %>
+              <% end %>
+              <%= link "Show more",
+                    to: product_path(@conn, :show, product),
+                    class: "btn btn-default" %>
             </p>
           </div>
         </div>

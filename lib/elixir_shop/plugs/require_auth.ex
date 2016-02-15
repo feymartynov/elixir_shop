@@ -6,7 +6,7 @@ defmodule ElixirShop.Plugs.RequireAuth do
   end
 
   def call(conn, _) do
-    if conn.current_user do
+    if conn.assigns.current_user do
       conn
     else
       conn |> put_status(401) |> halt

@@ -1,4 +1,23 @@
 <h1><%= @product.title %></h1>
 <div class="price"><%= format_price(@product.price) %></div>
 <p class="description"><%= @product.description %></p>
-<div><%= link "Back to list", to: product_path(@conn, :index), class: "btn btn-default" %></div>
+
+<p>
+  <%= if @current_user do %>
+    <%= link "Add to cart",
+          to: order_line_path(@conn, :create, "current"),
+          method: :post,
+          class: "btn btn-success btn-lg" %>
+  <% else %>
+    <%= link "Log in", to: auth_path(@conn, :new) %>
+    or
+    <%= link "register", to: user_path(@conn, :new) %>
+    to buy this stuff.
+  <% end %>
+</p>
+
+<div>
+  <%= link "Back to list",
+        to: product_path(@conn, :index),
+        class: "btn btn-default" %>
+</div>

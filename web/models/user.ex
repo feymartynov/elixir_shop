@@ -35,6 +35,11 @@ defmodule ElixirShop.User do
 
   defp set_password_digest(changeset) do
     password = Ecto.Changeset.get_field(changeset, :password)
-    change(changeset, %{password_digest: crypt_password(password)})
+
+    if password do
+      change(changeset, %{password_digest: crypt_password(password)})
+    else
+      changeset
+    end
   end
 end

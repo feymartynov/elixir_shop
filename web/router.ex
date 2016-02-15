@@ -22,7 +22,10 @@ defmodule ElixirShop.Router do
     pipe_through :browser
 
     get "/", ProductController, :index
-    resources "/products", ProductController, only: [:show]
-    resources "/orders", OrderController, only: [:index, :show]
+    resources "products", ProductController, only: [:show]
+
+    resources "orders", OrderController, only: [:index, :show] do
+      resources "lines", Order.LineController, only: [:create]
+    end
   end
 end
