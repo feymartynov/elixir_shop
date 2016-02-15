@@ -3,12 +3,16 @@ defmodule ElixirShop.Factory do
 
   alias ElixirShop.User
   alias ElixirShop.Product
+  alias ElixirShop.Order
 
   def factory(:user) do
-    %User{
+    user = %User{
       name: "suhorot",
       email: "suhorot@example.com",
       password: "qwe123"}
+
+    User.changeset(user)
+    |> Ecto.Changeset.apply_changes
   end
 
   def factory(:product) do
@@ -16,5 +20,11 @@ defmodule ElixirShop.Factory do
       title: "Beer",
       description: "Unfiltered",
       price: 210}
+  end
+
+  def factory(:order) do
+    %Order{customer: build(:user)}
+    |> Order.changeset
+    |> Ecto.Changeset.apply_changes
   end
 end
