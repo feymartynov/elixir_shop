@@ -11,44 +11,44 @@
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
-  <body>
+  <body>    
     <header class="header">
-      <nav class="navbar navbar-default">
-        <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">ElixirShop</a>
+      <noindex>
+        <nav class="navbar navbar-default">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/">ElixirShop</a>
+            </div>
+            <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="false" style="height: 1px;">
+              <ul class="nav navbar-nav navbar-right">
+                <%= if @current_user do %>
+                  <li>
+                    <div class="navbar-text">
+                      Welcome, <strong><%= @current_user.name %></strong>!</span>
+                    </div>
+                  </li>
+                  <li>
+                    <%= link "My Orders", to: order_path(@conn, :index) %>
+                  </li>
+                  <li>
+                    <%= link "Log out", to: auth_path(@conn, :destroy), method: :delete, class: "btn btn-link navbar-btn" %>
+                  </li>
+                <% else %>
+                  <li>
+                    <%= button "Log in", to: auth_path(@conn, :new), method: :get, class: "btn btn-default navbar-btn" %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
           </div>
-          <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="false" style="height: 1px;">
-            <ul class="nav navbar-nav"></ul>
-            <ul class="nav navbar-nav navbar-right">
-              <%= if @current_user do %>
-                <li>
-                  <div class="navbar-text">
-                    Welcome, <strong><%= @current_user.name %></strong>!</span>
-                  </div>
-                </li>
-                <li>
-                  <div class="navbar-text">
-                    <%= link "Log out", to: auth_path(@conn, :destroy), method: :delete %>
-                  </div>
-                </li>
-              <% else %>
-                <li>
-                  <div class="navbar-text">
-                    <%= link "Log in", to: auth_path(@conn, :new) %>
-                  </div>
-                </li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
-      </nav>
+        </nav>
+      </noindex>
     </header>
 
     <div class="container">

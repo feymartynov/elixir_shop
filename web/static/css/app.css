@@ -36,3 +36,7 @@ form.link, form.button {
   font-size: 1.25em;
   margin-bottom: 1em;
 }
+
+.table-orders>tbody>tr>td {
+  vertical-align: middle;
+}

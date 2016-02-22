@@ -1,4 +1,12 @@
-<h1>Order #<%= @order.id %></h1>
+<ol class="breadcrumb">
+  <li><%= link "Home", to: "/" %></li>
+  <li><%= link "My orders", to: order_path(@conn, :index) %></li>
+  <li class="active">Order #<%= @order.id %></li>
+</ol>
+
+<div class="page-header">
+  <h1>Order #<%= @order.id %></h1>
+</div>
 
 <dl class="dl-horizontal">
   <dt>State</dt>
