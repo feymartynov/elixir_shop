@@ -2,9 +2,8 @@ defmodule ElixirShop.Transactions.AddToCart do
   alias ElixirShop.{Repo, Order, Order.Line}
 
   def run(order, product, items_number \\ 1) do
-    line = add_item(order, product, items_number)
+    {line, log} = add_item(order, product, items_number)
     order = increase_total(order, line)
-    log = log_event(order, line, product, items_number)
     {:ok, order, line, log}
   end
 
@@ -13,50 +12,60 @@ defmodule ElixirShop.Transactions.AddToCart do
       order_id: order.id,
       product_id: product.id)
 
-    line_changeset = if existing_line do
-      increase_items_number(existing_line, items_number)
+    if existing_line do
+      line = increase_items_number(existing_line, items_number)
+      log = log_increased_line(order, line, items_number)
+      {line, log}
     else
-      build_new_line(order, product, items_number) |> Line.changeset(%{})
+      line = create_new_line(order, product, items_number)
+      log = log_created_line(order, line, product, items_number)
+      {line, log}
     end
-
-    Repo.insert_or_update!(line_changeset)
   end
 
   defp increase_items_number(line, increment) do
     increased_items_number = line.items_number + increment
     total_price = increased_items_number * line.item_price
 
-    Line.changeset(line, %{
+    Repo.update! Line.changeset(line, %{
       items_number: increased_items_number,
       total_price: total_price})
   end
 
-  defp build_new_line(order, product, items_number) do
-    Ecto.build_assoc(order, :lines,
+  defp log_increased_line(order, line, items_number) do
+    Repo.insert! Ecto.build_assoc(order, :events,
+      event: "line_items_number_increased",
+      user_id: order.customer_id,
+      humanized: "Increased \"#{line.title}\" number by #{items_number}",
+      options: %{
+        order_line_id: line.id,
+        items_number: items_number})
+  end
+
+  defp create_new_line(order, product, items_number) do
+    line = Ecto.build_assoc(order, :lines,
       product_id: product.id,
       title: product.title,
       items_number: items_number,
       item_price: product.price,
       total_price: product.price * items_number)
+
+    Line.changeset(line, %{}) |> Repo.insert!
+  end
+
+  defp log_created_line(order, line, product, items_number) do
+    Repo.insert! Ecto.build_assoc(order, :events,
+      event: "line_added",
+      user_id: order.customer_id,
+      humanized: "Added #{Line.to_string(line)} to cart",
+      options: %{
+        order_line_id: line.id,
+        product_id: product.id,
+        items_number: items_number})
   end
 
   defp increase_total(order, line) do
     total = order.total + line.total_price
     Order.changeset(order, %{total: total}) |> Repo.update!
-  end
-
-  defp log_event(order, line, product, items_number) do
-    humanized = "Added #{Line.to_string(line)} to cart"
-
-    event = Ecto.build_assoc(order, :events,
-      event: "item_added",
-      user_id: order.customer_id,
-      humanized: humanized,
-      options: %{
-        order_line_id: line.id,
-        product_id: product.id,
-        items_number: items_number})
-
-    Repo.insert!(event)
   end
 end
