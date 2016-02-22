@@ -4,6 +4,7 @@ defmodule ElixirShop.Order.Event do
   schema "order_events" do
     field :event, :string
     field :options, :map
+    field :humanized, :string   
     timestamps updated_at: false
 
     belongs_to :order, ElixirShop.Order

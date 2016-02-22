@@ -1,0 +1,51 @@
+<h1>Order #<%= @order.id %></h1>
+
+<dl class="dl-horizontal">
+  <dt>State</dt>
+  <dd><%= humanize(@order.state) %></dd>
+  <dt>Created at</dt>
+  <dd><time><%= @order.inserted_at %></time></dd>
+  <dt>Last updated at</dt>
+  <dd><time><%= @order.updated_at %></time></dd>
+</dl>
+
+<h2>Items</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>&nbsp;</th>
+      <th class="text-right">Number</th>
+      <th class="text-right">Price</th>
+      <th class="text-right">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for line <- @order.lines do %>
+      <tr>
+        <td><%= line.title %></td>
+        <td class="text-right"><%= line.items_number %></td>
+        <td class="text-right"><%= format_price(line.item_price) %></td>
+        <td class="text-right"><%= format_price(line.total_price) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4" class="text-right">
+        <strong>TOTAL: <%= format_price(@order.total) %></strong>
+      <td>
+    </tr>
+  </tfoot>
+</table>
+
+<h2>Event log</h2>
+<table class="table">
+  <ul class="list-group">
+    <%= for event <- @order.events do %>
+      <li class="list-group-item">
+        <time class="text-muted"><%= event.inserted_at %></time>
+        <%= event.humanized %>
+      </li>
+    <% end %>
+  </ul>
+</table>

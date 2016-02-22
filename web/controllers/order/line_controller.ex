@@ -14,7 +14,7 @@ defmodule ElixirShop.Order.LineController do
       AddToCart.run(order, product)
     end
 
-    redirect conn, to: Helpers.order_path(conn, :show, order)
+    redirect conn, to: Helpers.order_path(conn, :show, order.token)
   end
 
   defp find_or_create_order(customer, token) do

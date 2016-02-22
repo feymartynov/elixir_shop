@@ -32,11 +32,12 @@ defmodule ElixirShop.Transactions.AddToCartTransactionTest do
   end
 
   test "it should log item adding" do
-    {order, product} = {create(:order), create(:product)}
+    {order, product} = {create(:order), create(:product, title: "Stuff")}
     {:ok, _order, line, log} = AddToCart.run(order, product, 7)
 
     assert log.event == "item_added"
     assert log.user_id == order.customer_id
+    assert log.humanized == "Added \"Stuff\" (7 pcs.) to cart"
     assert log.options == %{
       order_line_id: line.id,
       product_id: product.id,

@@ -48,9 +48,13 @@ defmodule ElixirShop.Transactions.AddToCart do
   end
 
   defp log_event(order, line, product, items_number) do
+    pcs = if items_number > 1, do: " (#{items_number} pcs.)", else: ""
+    humanized = "Added \"#{product.title}\"#{pcs} to cart"
+
     event = Ecto.build_assoc(order, :events,
       event: "item_added",
       user_id: order.customer_id,
+      humanized: humanized,
       options: %{
         order_line_id: line.id,
         product_id: product.id,
