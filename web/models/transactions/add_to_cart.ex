@@ -1,7 +1,5 @@
 defmodule ElixirShop.Transactions.AddToCart do
-  alias ElixirShop.Repo
-  alias ElixirShop.Order
-  alias ElixirShop.Order.Line
+  alias ElixirShop.{Repo, Order, Order.Line}
 
   def run(order, product, items_number \\ 1) do
     line = add_item(order, product, items_number)
@@ -11,7 +9,7 @@ defmodule ElixirShop.Transactions.AddToCart do
   end
 
   defp add_item(order, product, items_number) do
-    existing_line = Repo.get_by(Order.Line,
+    existing_line = Repo.get_by(Line,
       order_id: order.id,
       product_id: product.id)
 
@@ -48,8 +46,7 @@ defmodule ElixirShop.Transactions.AddToCart do
   end
 
   defp log_event(order, line, product, items_number) do
-    pcs = if items_number > 1, do: " (#{items_number} pcs.)", else: ""
-    humanized = "Added \"#{product.title}\"#{pcs} to cart"
+    humanized = "Added #{Line.to_string(line)} to cart"
 
     event = Ecto.build_assoc(order, :events,
       event: "item_added",

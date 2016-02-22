@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
-  <body>    
+  <body>
     <header class="header">
       <noindex>
         <nav class="navbar navbar-default">
@@ -37,7 +37,7 @@
                     <%= link "My Orders", to: order_path(@conn, :index) %>
                   </li>
                   <li>
-                    <%= link "Log out", to: auth_path(@conn, :destroy), method: :delete, class: "btn btn-link navbar-btn" %>
+                    <%= link "Log out", to: auth_path(@conn, :delete), method: :delete, class: "btn btn-link navbar-btn" %>
                   </li>
                 <% else %>
                   <li>

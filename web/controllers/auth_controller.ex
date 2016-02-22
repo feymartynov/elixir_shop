@@ -24,7 +24,7 @@ defmodule ElixirShop.AuthController do
     end
   end
 
-  def destroy(conn, _params) do
+  def delete(conn, _params) do
     conn
     |> put_session(:current_user_id, nil)
     |> put_flash(:info, "Successfully logged out.")

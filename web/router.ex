@@ -15,7 +15,7 @@ defmodule ElixirShop.Router do
 
     resources "/register", UserController, only: [:new, :create]
     resources "/login", AuthController, only: [:new, :create]
-    delete "/logout", AuthController, :destroy
+    delete "/logout", AuthController, :delete
   end
 
   scope "/", ElixirShop do
@@ -25,7 +25,7 @@ defmodule ElixirShop.Router do
     resources "products", ProductController, only: [:show]
 
     resources "orders", OrderController, only: [:index, :show] do
-      resources "lines", Order.LineController, only: [:create]
+      resources "lines", Order.LineController, only: [:create, :delete]
     end
   end
 end

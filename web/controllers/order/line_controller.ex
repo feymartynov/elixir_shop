@@ -2,9 +2,8 @@ defmodule ElixirShop.Order.LineController do
   use ElixirShop.Web, :controller
   plug ElixirShop.Plugs.RequireAuth
 
-  alias ElixirShop.Order
-  alias ElixirShop.Product
-  alias ElixirShop.Transactions.AddToCart
+  alias ElixirShop.{Order, Order.Line, Product}
+  alias ElixirShop.Transactions.{AddToCart, RemoveFromCart}
   alias ElixirShop.Router.Helpers
 
   def create(conn, %{"order_id" => token, "product_id" => product_id}) do
@@ -12,6 +11,16 @@ defmodule ElixirShop.Order.LineController do
       product = Repo.get!(Product, product_id)
       order = find_or_create_order(conn.assigns.current_user, token)
       AddToCart.run(order, product)
+    end
+
+    redirect conn, to: Helpers.order_path(conn, :show, order.token)
+  end
+
+  def delete(conn, %{"order_id" => token, "id" => line_id}) do
+    {:ok, {:ok, order, _log}} = Repo.transaction fn ->
+      order = find_or_create_order(conn.assigns.current_user, token)
+      line = Repo.get!(Line, line_id)
+      RemoveFromCart.run(order, line)
     end
 
     redirect conn, to: Helpers.order_path(conn, :show, order.token)

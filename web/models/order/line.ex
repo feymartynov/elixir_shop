@@ -19,4 +19,9 @@ defmodule ElixirShop.Order.Line do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
+
+  def to_string(line) do
+    pcs = if line.items_number > 1, do: " (#{line.items_number} pcs.)", else: ""
+    "\"#{line.title}\"#{pcs}"
+  end
 end
