@@ -24,7 +24,7 @@ defmodule ElixirShop.Router do
     get "/", ProductController, :index
     resources "products", ProductController, only: [:show]
 
-    resources "orders", OrderController, only: [:index, :show] do
+    resources "orders", OrderController, only: [:index, :show, :update] do
       resources "lines", Order.LineController, only: [:create, :delete]
     end
   end

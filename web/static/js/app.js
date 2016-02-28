@@ -19,3 +19,31 @@ import "phoenix_html"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+
+function ready(fn) {
+  if (document.readyState != 'loading'){
+    fn();
+  } else {
+    document.addEventListener('DOMContentLoaded', fn);
+  }
+}
+
+ready(() => {
+  let csrfToken = document.getElementById('csrf-token').getAttribute('value');
+  let links = document.querySelectorAll('a[data-method]');
+
+  Array.prototype.forEach.call(links, (link) => {
+    link.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      var form = document.createElement('form');
+      form.setAttribute('action', link.getAttribute('href'));
+      form.setAttribute('method', 'post');
+      form.setAttribute('accept-charset', 'UTF-8');
+      form.innerHTML = `
+        <input type="hidden" name="_method" value="${link.dataset['method']}" />
+        <input type="hidden" name="_csrf_token" value="${csrfToken}" />
+        <input type="hidden" name="_utf8" value="✓">`;
+      form.submit();
+    });
+  });
+});

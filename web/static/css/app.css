@@ -37,6 +37,8 @@ form.link, form.button {
   margin-bottom: 1em;
 }
 
-.table-orders>tbody>tr>td {
+.table-orders>tbody>tr>td,
+.table-order-lines>tbody>tr>td,
+.table-order-lines>tfoot>tr>td {
   vertical-align: middle;
 }

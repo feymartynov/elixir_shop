@@ -18,6 +18,9 @@ defmodule ElixirShop.Order.Line do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> validate_number(:items_number, greater_than_or_equal_to: 1, less_than: 100)
+    |> validate_number(:item_price, greater_than: 0)
+    |> validate_number(:total_price, greater_than: 0)
   end
 
   def to_string(line) do

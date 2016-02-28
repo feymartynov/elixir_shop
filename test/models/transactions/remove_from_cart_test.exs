@@ -5,20 +5,21 @@ defmodule ElixirShop.Transactions.RemoveFromCartTransactionTest do
   alias ElixirShop.Transactions.{AddToCart, RemoveFromCart}
 
   setup do
-    {order, product} = {create(:order), create(:product)}
-    {:ok, order, line, _log} = AddToCart.run(order, product, 2)
+    order = create(:order)
+    {:ok, order, _line, _log} = AddToCart.run(order, create(:product), 2)
+    {:ok, order, line, _log} = AddToCart.run(order, create(:product), 2)
     {:ok, order: order, order_line: line}
   end
 
   test "it should remove the line", %{order: order, order_line: line} do
     {:ok, _order, _log} = RemoveFromCart.run(order, line)
     order = Repo.get!(Order, order.id) |> Repo.preload(:lines)
-    assert order.lines == []
+    assert length(order.lines) == 1
   end
 
   test "it should decrease total", %{order: order, order_line: line} do
     {:ok, order, _log} = RemoveFromCart.run(order, line)
-    assert order.total == 0
+    assert order.total == 420
   end
 
   test "it should log item adding", %{order: order, order_line: line} do

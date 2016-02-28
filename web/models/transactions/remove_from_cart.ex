@@ -1,5 +1,3 @@
-require IEx
-
 defmodule ElixirShop.Transactions.RemoveFromCart do
   alias ElixirShop.{Repo, Order, Order.Line}
 

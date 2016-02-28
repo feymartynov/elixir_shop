@@ -18,41 +18,58 @@
 </dl>
 
 <h2>Items</h2>
-<table class="table">
-  <thead>
-    <tr>
-      <th>&nbsp;</th>
-      <th class="text-right">Number</th>
-      <th class="text-right">Price</th>
-      <th class="text-right">Total</th>
-      <th class="text-center">Actions<th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= for line <- @order.lines do %>
+<%= form_for @conn,
+      order_path(@conn, :update, @order.token),
+      [as: "", method: :put], fn f -> %>
+  <table class="table table-order-lines">
+    <thead>
       <tr>
-        <td><%= line.title %></td>
-        <td class="text-right"><%= line.items_number %></td>
-        <td class="text-right"><%= format_price(line.item_price) %></td>
-        <td class="text-right"><%= format_price(line.total_price) %></td>
-        <td class="text-center">
-          <%= link "Remove",
-                to: order_line_path(@conn, :delete, @order.token, line.id),
-                method: :delete,
-                class: "btn btn-default btn-xs" %>
-        </td>
+        <th width="80%">&nbsp;</th>
+        <th class="text-right">Number</th>
+        <th class="text-right">Price</th>
+        <th class="text-right">Total</th>
+        <th class="text-center">Actions<th>
       </tr>
-    <% end %>
-  </tbody>
-  <tfoot>
-    <tr>
-      <td colspan="4" class="text-right">
-        <strong>TOTAL: <%= format_price(@order.total) %></strong>
-      </td>
-      <td>&nbsp;</td>
-    </tr>
-  </tfoot>
-</table>
+    </thead>
+    <tbody>
+      <%= for line <- @order.lines do %>
+        <tr>
+          <td><%= line.title %></td>
+          <td class="text-right" nowrap>
+            <input
+              type="number"
+              class="form-control"
+              name="order[lines][<%= line.id %>][items_number]"
+              min="0"
+              max="99"
+              value="<%= line.items_number %>" />
+          </td>
+          <td class="text-right" nowrap><%= format_price(line.item_price) %></td>
+          <td class="text-right" nowrap><%= format_price(line.total_price) %></td>
+          <td class="text-center" nowrap>
+            <%= link "Remove",
+                  to: order_line_path(@conn, :delete, @order.token, line.id),
+                  data: [method: :delete],
+                  class: "btn btn-default btn-xs" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>&nbsp;</td>
+        <td class="text-right">
+          <button type="submit" class="btn btn-primary">Save</button>
+        </td>
+        <td><strong>TOTAL:</strong></td>
+        <td class="text-right" nowrap>
+          <strong><%= format_price(@order.total) %></strong>
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+    </tfoot>
+  </table>
+<% end %>
 
 <h2>Event log</h2>
 <table class="table">

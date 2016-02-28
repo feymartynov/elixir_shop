@@ -22,6 +22,7 @@ defmodule ElixirShop.Order do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> validate_number(:total, greater_than: 0)
     |> set_token
   end
 
