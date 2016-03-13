@@ -26,6 +26,12 @@ defmodule ElixirShop.Router do
 
     resources "orders", OrderController, only: [:index, :show, :update] do
       resources "lines", Order.LineController, only: [:create, :delete]
+
+      resources(
+        "checkout",
+        Order.CheckoutController,
+        singleton: true,
+        only: [:show, :create])
     end
   end
 end

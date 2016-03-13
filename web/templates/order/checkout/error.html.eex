@@ -1,0 +1,24 @@
+<ol class="breadcrumb">
+  <li><%= link "Home", to: "/" %></li>
+  <li><%= link "My orders", to: order_path(@conn, :index) %></li>
+  <li><%= link "Order ##{@order.id}", to: order_path(@conn, :show, @order.token) %></li>
+  <li class="active">Checkout</li>
+</ol>
+
+<div class="page-header">
+  <h1>Failure</h1>
+</div>
+
+<h2 class="text-center">Something went wrong :(</h2>
+
+<p class="lead">
+  Sorry, something was wrong with the payment.
+  Please try again and double check the payment credentials.
+  Contact us if the error persists.
+</p>
+
+<div class="text-center">
+  <%= link "Try again",
+        to: order_checkout_path(@conn, :show, @order.token),
+        class: "btn btn-primary btn-lg" %>
+</div>

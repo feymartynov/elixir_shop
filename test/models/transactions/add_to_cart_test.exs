@@ -1,4 +1,4 @@
-defmodule ElixirShop.Transactions.AddToCartTransactionTest do
+defmodule ElixirShop.Transactions.AddToCartTest do
   use ElixirShop.ModelCase
 
   alias ElixirShop.Transactions.AddToCart
@@ -53,5 +53,10 @@ defmodule ElixirShop.Transactions.AddToCartTransactionTest do
     assert log.user_id == order.customer_id
     assert log.humanized == "Increased \"Beer\" number by 4"
     assert log.options == %{order_line_id: line.id, items_number: 4}
+  end
+
+  test "it should fail for paid order" do
+    {order, product} = {create(:order, state: "paid"), create(:product)}
+    assert {:error, _} = AddToCart.run(order, product)
   end
 end

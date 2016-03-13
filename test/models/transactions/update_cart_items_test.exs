@@ -1,5 +1,3 @@
-require IEx
-
 defmodule ElixirShop.Transactions.UpdateCartItemsTest do
   use ElixirShop.ModelCase
 
@@ -50,5 +48,10 @@ defmodule ElixirShop.Transactions.UpdateCartItemsTest do
       assert log.event == "line_updated"
       assert log.user_id == order.customer_id
     end
+  end
+
+  test "it should fail for paid order", %{order: order} do
+    order = Order.changeset(order, %{state: "paid"}) |> Repo.update!
+    assert {:error, _} = UpdateCartItems.run(order, [])
   end
 end

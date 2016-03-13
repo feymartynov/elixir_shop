@@ -2,9 +2,13 @@ defmodule ElixirShop.Transactions.AddToCart do
   alias ElixirShop.{Repo, Order, Order.Line}
 
   def run(order, product, items_number \\ 1) do
-    {line, log} = add_item(order, product, items_number)
-    order = increase_total(order, line)
-    {:ok, order, line, log}
+    if order.state == "shopping" do
+      {line, log} = add_item(order, product, items_number)
+      order = increase_total(order, line)
+      {:ok, order, line, log}
+    else
+      {:error, "The order is not in shopping state"}
+    end
   end
 
   defp add_item(order, product, items_number) do

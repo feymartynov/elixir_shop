@@ -2,13 +2,16 @@ defmodule ElixirShop.Transactions.RemoveFromCart do
   alias ElixirShop.{Repo, Order, Order.Line}
 
   def run(order, line) do
-    if line.order_id == order.id do
-      Repo.delete!(line)
-      order = decrease_total(order, line)
-      log = log_event(order, line)
-      {:ok, order, log}
-    else
-      {:error, "The line doesn't belong to the order"}
+    cond do
+      order.state != "shopping" ->
+        {:error, "The order is not in shopping state"}
+      line.order_id != order.id ->
+        {:error, "The line doesn't belong to the order"}
+      true ->
+        Repo.delete!(line)
+        order = decrease_total(order, line)
+        log = log_event(order, line)
+        {:ok, order, log}
     end
   end
 

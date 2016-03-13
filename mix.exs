@@ -26,7 +26,8 @@ defmodule ElixirShop.Mixfile do
        :gettext,
        :phoenix_ecto,
        :postgrex,
-       :comeonin]]
+       :comeonin,
+       :braintree]]
   end
 
   # Specifies which paths to compile per environment.
@@ -46,7 +47,9 @@ defmodule ElixirShop.Mixfile do
      {:cowboy, "~> 1.0"},
      {:comeonin, "~> 2.1"},
      {:poison, "~> 1.5"},
-     {:ex_machina, "~> 0.6.1", only: :test}]
+     {:braintree, git: "https://github.com/sorentwo/braintree-elixir", tag: "v0.3.2"},
+     {:ex_machina, "~> 0.6.1", only: :test},
+     {:mock, "~> 0.1.1", only: :test}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

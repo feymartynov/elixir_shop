@@ -4,16 +4,23 @@ defmodule ElixirShop.Transactions.UpdateCartItems do
   alias ElixirShop.{Repo, Order, Order.Line}
 
   def run(order, lines_params) do
-    lines = for {line_id, %{"items_number" => items_number}} <- lines_params do
+    if order.state == "shopping" do
+      lines = update_lines(order, lines_params)
+      logs = for line <- lines, do: log_event(order, line)
+      order = recalculate_total(order, lines)
+      {:ok, order, logs}
+    else
+      {:error, "The order is not in shopping state"}
+    end
+  end
+
+  defp update_lines(order, lines_params) do
+    for {line_id, %{"items_number" => items_number}} <- lines_params do
       {line_id, _} = Integer.parse(line_id)
       line = Enum.find(order.lines, fn(l) -> l.id == line_id end)
       {items_number, _} = Integer.parse(items_number)
       update_line(line, items_number)
     end
-
-    logs = for line <- lines, do: log_event(order, line)
-    order = recalculate_total(order, lines)
-    {:ok, order, logs}
   end
 
   defp update_line(line, items_number) do

@@ -1,0 +1,21 @@
+<ol class="breadcrumb">
+  <li><%= link "Home", to: "/" %></li>
+  <li><%= link "My orders", to: order_path(@conn, :index) %></li>
+  <li><%= link "Order ##{@order.id}", to: order_path(@conn, :show, @order.token) %></li>
+  <li class="active">Checkout</li>
+</ol>
+
+<div class="page-header">
+  <h1>Success</h1>
+</div>
+
+<h2 class="text-center">Thank you for the purchase!</h2>
+<br /><br /><br />
+
+<div class="text-center">
+  <%= link "Back to shopping", to: "/", class: "btn btn-primary btn-lg" %>
+  &nbsp;
+  <%= link "Go to the order",
+        to: order_path(@conn, :show, @order.token),
+        class: "btn btn-default btn-lg" %>
+</div>

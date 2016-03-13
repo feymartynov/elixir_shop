@@ -1,4 +1,4 @@
-defmodule ElixirShop.Transactions.RemoveFromCartTransactionTest do
+defmodule ElixirShop.Transactions.RemoveFromCartTest do
   use ElixirShop.ModelCase
 
   alias ElixirShop.{Repo, Order, Order.Line}
@@ -34,5 +34,10 @@ defmodule ElixirShop.Transactions.RemoveFromCartTransactionTest do
   test "it should fail on alien line", %{order: order, order_line: _line} do
     result = RemoveFromCart.run(order, %Line{})
     assert result == {:error, "The line doesn't belong to the order"}
+  end
+
+  test "it should fail for paid order", %{order: order, order_line: line} do
+    order = Order.changeset(order, %{state: "paid"}) |> Repo.update!
+    assert {:error, _} = RemoveFromCart.run(order, line)
   end
 end

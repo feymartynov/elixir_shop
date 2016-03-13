@@ -10,20 +10,28 @@
 <table class="table table-orders">
   <thead>
     <tr>
-      <th>Order number</th>
-      <th>State</th>
-      <th>Total price</th>
+      <th width="25%">Order number</th>
+      <th width="25%">State</th>
+      <th width="25%">Total price</th>
+      <th width="25%">&nbsp;</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody class="lead">
     <%= for order <- @orders do %>
       <tr>
-        <td class="lead">
+        <td>
           <%= link "Order ##{order.id}",
                 to: order_path(@conn, :show, order.token) %>
         </td>
         <td><%= humanize(order.state) %></td>
         <td><%= format_price(order.total) %></td>
+        <td>
+          <%= if order.state == "shopping" do %>
+            <%= link "Checkout",
+                  to: order_checkout_path(@conn, :show, order.token),
+                  class: "btn btn-block btn-success" %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

@@ -1,0 +1,25 @@
+<ol class="breadcrumb">
+  <li><%= link "Home", to: "/" %></li>
+  <li><%= link "My orders", to: order_path(@conn, :index) %></li>
+  <li><%= link "Order ##{@order.id}", to: order_path(@conn, :show, @order.token) %></li>
+  <li class="active">Checkout</li>
+</ol>
+
+<div class="page-header">
+  <h1>Checkout</h1>
+</div>
+
+<%= form_for @conn,
+      order_checkout_path(@conn, :create, @order.token),
+      [as: "", method: :post], fn f -> %>
+  <div id="payment-form"></div>
+  <button type="submit" class="btn btn-primary btn-lg">
+    Pay <%= format_price(@order.total) %>
+  </button>
+<% end %>
+
+<script src="https://js.braintreegateway.com/js/braintree-2.21.0.min.js"></script>
+<script>
+  var clientToken = <%= raw payment_token() %>;
+  braintree.setup(clientToken, "dropin", { container: "payment-form" });
+</script>
