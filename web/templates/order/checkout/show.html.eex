@@ -11,7 +11,35 @@
 
 <%= form_for @conn,
       order_checkout_path(@conn, :create, @order.token),
-      [as: "", method: :post], fn f -> %>
+      [as: "order", method: :post], fn f -> %>
+  <div class="form-group">
+    <label>Name</label>
+    <%= text_input f, :customer_name,
+          class: "form-control",
+          required: true,
+          value: @order.customer.name %>
+  </div>
+  <div class="form-group">
+    <label>Phone</label>
+    <%= telephone_input f, :phone,
+          class: "form-control",
+          required: true,
+          value: @order.customer.phone %>
+  </div>
+  <div class="form-group">
+    <label>Email</label>
+    <%= email_input f, :email,
+          class: "form-control",
+          required: true,
+          value: @order.customer.email %>
+  </div>
+  <div class="form-group">
+    <label>Address</label>
+    <%= textarea f, :address,
+          class: "form-control",
+          required: true,
+          value: @order.customer.address %>
+  </div>
   <div id="payment-form"></div>
   <button type="submit" class="btn btn-primary btn-lg">
     Pay <%= format_price(@order.total) %>

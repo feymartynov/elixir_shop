@@ -42,3 +42,14 @@ form.link, form.button {
 .table-order-lines>tfoot>tr>td {
   vertical-align: middle;
 }
+
+pre.no-block {
+  display: inherit;
+  padding: 0;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  background-color: inherit;
+  border: none;
+  border-radius: 0;
+}

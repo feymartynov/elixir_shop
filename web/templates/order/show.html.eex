@@ -17,6 +17,16 @@
       <dd><time><%= @order.inserted_at %></time></dd>
       <dt>Last updated at</dt>
       <dd><time><%= @order.updated_at %></time></dd>
+      <%= if @order.state == "paid" do %>
+        <dt>Name<dt>
+        <dd><%= @order.customer_name %></dd>
+        <dt>Phone<dt>
+        <dd><%= @order.phone %></dd>
+        <dt>Email<dt>
+        <dd><%= @order.email %></dd>
+        <dt>Address<dt>
+        <dd><pre class="no-block"><%= @order.address %></pre></dd>
+      <% end %>
     </dl>
   </div>
   <div class="col-sm-3 text-right">

@@ -2,16 +2,21 @@ defmodule ElixirShop.Order.CheckoutController do
   use ElixirShop.Web, :controller
   plug ElixirShop.Plugs.RequireAuth
 
-  alias ElixirShop.Order
+  alias ElixirShop.{Order, Transactions.Checkout}
 
   def show(conn, %{"order_id" => token}) do
-    render(conn, "show.html", order: find_order(conn, token))
+    order = find_order(conn, token) |> Repo.preload(:customer)
+    render(conn, "show.html", order: order)
   end
 
-  def create(conn, %{"order_id" => token, "payment_method_nonce" => nonce}) do
+  def create(conn, %{
+    "order_id" => token,
+    "payment_method_nonce" => nonce,
+    "order" => checkout_params}) do
+
     order = find_order(conn, token)
 
-    case ElixirShop.Transactions.Checkout.run(order, nonce) do
+    case Checkout.run(order, nonce, checkout_params) do
       {:ok, order, _} -> render(conn, "success.html", order: order)
       {:error, _} -> render(conn, "error.html", order: order)
     end

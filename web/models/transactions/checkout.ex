@@ -1,15 +1,16 @@
 defmodule ElixirShop.Transactions.Checkout do
   alias ElixirShop.{Repo, Order}
 
-  def run(order, nonce) do
+  def run(order, nonce, checkout_params) do
     if order.state == "shopping" do
-      checkout(order, nonce)
+      order = Order.checkout_changeset(order, checkout_params) |> Repo.update!
+      payment(order, nonce)
     else
       {:error, "The order is not in shopping state"}
     end
   end
 
-  defp checkout(order, nonce) do
+  defp payment(order, nonce) do
     case call_braintree(order, nonce) do
       {:ok, transaction} ->
         log = log_success(order, transaction)

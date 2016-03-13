@@ -6,6 +6,8 @@ defmodule ElixirShop.User do
     field :email, :string
     field :password, :string, virtual: true
     field :password_digest, :string
+    field :phone, :string
+    field :address, :string
     timestamps
   end
 
